@@ -46,28 +46,40 @@
         )
         conversions;
   in
-  { options.links =
-      l.mkOption
-        { type =
-            t.submodule
-              { options =
-                  { annotated =
-                      l.mkOption
-                        { type = path-set (null-or annotated);
-                          default = {};
-                        };
+  { options =
+      { links =
+          l.mkOption
+            { type =
+                t.submodule
+                  { options =
+                      { annotated =
+                          l.mkOption
+                            { type = path-set (null-or annotated);
+                              default = {};
+                            };
+                      }
+                      // conversion-options;
+                  };
 
-                    users =
-                      l.mkOption
-                        { type = t.attrsOf (t.submodule { options = conversion-options; });
-                          default = {};
-                        };
-                  }
-                  // conversion-options;
-              };
+              default = {};
+            };
 
-          default = {};
-        };
+        users.users =
+          l.mkOption
+            { type =
+                t.attrsOf
+                  (t.submodule
+                     { options =
+                         { links =
+                             l.mkOption
+                               { type = t.submodule { options = conversion-options; };
+                                 default = {};
+                               };
+                         };
+                     }
+                  );
+            };
+      };
 
     config =
       { system.activationScripts =
@@ -113,7 +125,7 @@
             ((make-annotated (b.removeAttrs config.links [ "annotated" "users" ]))
              ++ (b.concatLists
                    (l.mapAttrsToList
-                      (user: type-set:
+                      (user: cfg:
                          b.map
                            (l.mapAttrs'
                               (path: v:
@@ -122,9 +134,9 @@
                                    v
                               )
                            )
-                           (make-annotated type-set)
+                           (make-annotated cfg.links)
                       )
-                      config.links.users
+                      config.users.users
                    )
                 )
             );
