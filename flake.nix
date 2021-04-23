@@ -1,1 +1,1 @@
-{ outputs = _: { nixosModule =  import ./links.nix; }; }
+{ outputs = _: { nixosModule =  import ./.; }; }
