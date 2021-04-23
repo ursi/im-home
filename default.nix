@@ -98,12 +98,14 @@
                  ''
                  ${p.trash-cli}/bin/trash-put -f ${path}
 
-                 if [[ ! -e ${dir} ]]; then
-                   mkdir -p ${dir}
-                 fi
-
                  ${if target != null then
-                     "ln -s ${target} ${path}"
+                     ''
+                     if [[ ! -e ${dir} ]]; then
+                       mkdir -p ${dir}
+                     fi
+
+                     ln -s ${target} ${path}
+                     ''
                    else
                      ""
                  }
