@@ -94,7 +94,7 @@
                      value;
                in
                l.nameValuePair
-                 ("derivation-links-" + unescaped-path)
+                 "nixos-links: ${unescaped-path}"
                  ''
                  ${p.trash-cli}/bin/trash-put -f ${path}
 
