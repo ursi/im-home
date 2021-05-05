@@ -2,6 +2,7 @@
   let
     b = builtins; l = lib; p = pkgs; t = l.types;
     annotated = import ./annotated.nix p;
+    augment = import ./augment.nix l;
     null-or = import ./null-or.nix p;
 
     formats =
@@ -63,23 +64,16 @@
 
               default = {};
             };
-
-        users.users =
-          l.mkOption
-            { type =
-                t.attrsOf
-                  (t.submodule
-                     { options =
-                         { links =
-                             l.mkOption
-                               { type = t.submodule { options = conversion-options; };
-                                 default = {};
-                               };
-                         };
-                     }
-                  );
-            };
-      };
+      }
+      // augment
+           { options =
+               { links =
+                   l.mkOption
+                     { type = t.submodule { options = conversion-options; };
+                       default = {};
+                     };
+               };
+           };
 
     config =
       { system.activationScripts =
