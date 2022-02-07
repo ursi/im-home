@@ -1,6 +1,7 @@
+with builtins;
 { pkgs, lib, config, ...}:
   let
-    b = builtins; l = lib; p = pkgs; t = l.types;
+    l = lib; p = pkgs; t = l.types;
     annotated = import ./annotated.nix p;
     augment = import ./augment.nix l;
     null-or = import ./null-or.nix p;
@@ -34,7 +35,7 @@
     path-set = type:
       t.addCheck
         (t.attrsOf type)
-        (set: b.all t.path.check (b.attrNames set))
+        (set: all t.path.check (attrNames set))
       // { description = "set of ${type.name} with attributes that are paths"; };
 
     conversion-options =
@@ -81,7 +82,7 @@
             (unescaped-path: value:
                let
                  path = l.escapeShellArg unescaped-path;
-                 dir = l.escapeShellArg (b.dirOf unescaped-path);
+                 dir = l.escapeShellArg (dirOf unescaped-path);
                  target =
                    l.mapNullable
                      (v: conversions.${v.type}.convert v.value)
@@ -118,11 +119,11 @@
                 );
           in
           l.mkMerge
-            ((make-annotated (b.removeAttrs config.links [ "annotated" "users" ]))
-             ++ (b.concatLists
+            ((make-annotated (removeAttrs config.links [ "annotated" "users" ]))
+             ++ (concatLists
                    (l.mapAttrsToList
                       (user: cfg:
-                         b.map
+                         map
                            (l.mapAttrs'
                               (path: v:
                                  l.nameValuePair

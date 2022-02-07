@@ -1,6 +1,7 @@
+with builtins;
 pkgs:
   let
-    b = builtins; l = p.lib; p = pkgs; t = l.types;
+    l = p.lib; p = pkgs; t = l.types;
 
     formats =
       { ini = p.formats.ini {};
@@ -32,15 +33,15 @@ pkgs:
 
       merge = loc: defs:
         let
-          type-str = (b.head defs).value.type;
+          type-str = (head defs).value.type;
           type = get-type type-str;
         in
-        if b.all (a: a.value.type == type-str) defs then
+        if all (a: a.value.type == type-str) defs then
           if type != null then
             { value =
                 type.merge
                   loc
-                  (b.map
+                  (map
                      (d: d // { value = d.value.value; })
                      defs
                   );
@@ -48,7 +49,7 @@ pkgs:
               type = type-str;
             }
           else
-            b.throw "this should never happen because of 'check'"
+            throw "this should never happen because of 'check'"
         else
-          b.throw "Not all the types for ${b.concatStringsSep "." loc} are the same.";
+          throw "Not all the types for ${concatStringsSep "." loc} are the same.";
     }

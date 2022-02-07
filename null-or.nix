@@ -1,6 +1,7 @@
+with builtins;
 pkgs:
   let
-    b = builtins; l = p.lib; p = pkgs; t = l.types;
+    l = p.lib; p = pkgs; t = l.types;
     ini = p.formats.ini {};
     json = p.formats.json {};
 
@@ -22,11 +23,11 @@ pkgs:
         merge = loc: defs:
           let
             filtered =
-              b.filter
+              filter
                 (d: d.value != null)
                 defs;
           in
-          if b.length filtered == 0 then
+          if length filtered == 0 then
             null
           else
             type.merge loc filtered;
