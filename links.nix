@@ -1,5 +1,5 @@
 with builtins;
-{ pkgs, lib, config, ...}:
+{ config, lib, pkgs, ... }:
   let
     l = lib; p = pkgs; t = l.types;
     annotated = import ./annotated.nix p;

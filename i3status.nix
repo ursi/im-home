@@ -1,5 +1,5 @@
 with builtins;
-{ pkgs, lib, ...}:
+{ lib, pkgs, ... }:
   let
     l = lib; p = pkgs; t = l.types;
     augment = import ./augment.nix l;
