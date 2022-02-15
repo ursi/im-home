@@ -78,11 +78,33 @@ with builtins;
 
     config =
       { system.activationScripts =
+          let
+            home-name-list =
+              l.mapAttrsToList
+                (_: v: { inherit (v) home name; })
+                config.users.users;
+          in
           l.mapAttrs'
             (unescaped-path: value:
                let
+                 unescaped-dir = dirOf unescaped-path;
                  path = l.escapeShellArg unescaped-path;
-                 dir = l.escapeShellArg (dirOf unescaped-path);
+                 dir = l.escapeShellArg unescaped-dir;
+
+                 user =
+                   let
+                     f = ls:
+                       if length ls == 0 then
+                         ""
+                       else
+                         let inherit (head ls) home name; in
+                         if l.hasPrefix home unescaped-dir then
+                           "-u ${l.escapeShellArg name}"
+                         else
+                           f (tail ls);
+                   in
+                   f home-name-list;
+
                  target =
                    l.mapNullable
                      (v: conversions.${v.type}.convert v.value)
@@ -96,7 +118,7 @@ with builtins;
                  ${if target != null then
                      ''
                      if [[ ! -e ${dir} ]]; then
-                       mkdir -p ${dir}
+                       ${p.sudo}/bin/sudo ${user} mkdir -p ${dir}
                      fi
 
                      ln -s ${target} ${path}
