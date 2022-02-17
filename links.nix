@@ -29,6 +29,7 @@ with builtins;
            )
            { lines = p.writeText "lines";
              package = l.id;
+             path = l.id;
              str = p.writeText "str";
            };
 
