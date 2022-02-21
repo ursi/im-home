@@ -21,6 +21,20 @@
                                           default = null;
                                         };
 
+                                    font =
+                                      { font =
+                                          l.mkOption
+                                            { type = t.str;
+                                              default = "pango:monospace";
+                                            };
+
+                                        size =
+                                          l.mkOption
+                                            { type = t.either t.int t.float;
+                                              default = 8;
+                                            };
+                                      };
+
                                     extra-config =
                                       l.mkOption
                                         { type = t.nullOr t.lines;
@@ -43,6 +57,8 @@
                        bctl = "${p.brightnessctl}/bin/brightnessctl";
                      in
                      ''
+                     font ${cfg.font.font} ${toString cfg.font.size}px
+
                      ${if bap != null then
                          ''
                          bindcode 232 exec --no-startup-id ${bctl} set ${toString bap}%-
