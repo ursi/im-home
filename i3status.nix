@@ -10,7 +10,7 @@ with builtins;
       augment
         ({ config, ... }:
            { options =
-               { i3status =
+               { im-home.i3status =
                    l.mkOption
                      { type =
                          t.nullOr
@@ -47,8 +47,8 @@ with builtins;
                      };
                };
 
-             config.links =
-               let cfg = config.i3status; in
+             config.im-home.links =
+               let cfg = config.im-home.i3status; in
                l.mkIf (cfg != null)
                  { lines."/.config/i3status/config" =
                      ''

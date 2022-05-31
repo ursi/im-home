@@ -10,7 +10,7 @@
       augment
         ({ config, ... }:
            { options =
-               { git =
+               { im-home.git =
                    l.mkOption
                      { type =
                          t.nullOr
@@ -35,10 +35,11 @@
                      };
                };
 
-             config.links =
-               l.mkIf (config.git != null)
-                 { ini."/.gitconfig" = config.git.config;
-                   lines."/.config/git/ignore" = config.git.ignore;
+             config.im-home.links =
+               let cfg = config.im-home.git; in
+               l.mkIf (cfg != null)
+                 { ini."/.gitconfig" = cfg.config;
+                   lines."/.config/git/ignore" = cfg.ignore;
                  };
            }
         );

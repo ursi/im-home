@@ -9,7 +9,7 @@
       augment
         ({ config, ... }:
            { options =
-               { icons =
+               { im-home.icons =
                    l.mkOption
                      { type =
                          t.nullOr
@@ -28,9 +28,10 @@
                      };
                };
 
-             config.links =
-               l.mkIf (config.icons != null)
-                 (let bindCursor = f: l.mapNullable f config.icons.cursor; in
+             config.im-home.links =
+               let cfg = config.im-home.icons; in
+               l.mkIf (cfg != null)
+                 (let bindCursor = f: l.mapNullable f cfg.cursor; in
                   { ini =
                       { "/.config/gtk-3.0/settings.ini" =
                           bindCursor
@@ -48,7 +49,7 @@
                       };
 
                     package =
-                      let inherit (config.icons) cursor; in
+                      let inherit (cfg) cursor; in
                       if cursor != null then
                         { "/.local/share/icons/${cursor.name}" = cursor; }
                       else

@@ -9,7 +9,7 @@
       augment
         ({ config, ... }:
            { options =
-               { i3 =
+               { im-home.i3 =
                    l.mkOption
                      { type =
                          t.nullOr
@@ -48,8 +48,8 @@
                      };
                };
 
-             config.links =
-               let cfg = config.i3; in
+             config.im-home.links =
+               let cfg = config.im-home.i3; in
                l.mkIf (cfg != null)
                  { lines."/.config/i3/config" =
                      let

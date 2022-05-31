@@ -44,7 +44,7 @@ with builtins;
         conversions;
   in
   { options =
-      { links =
+      { im-home.links =
           l.mkOption
             { type =
                 t.submodule
@@ -63,7 +63,7 @@ with builtins;
       }
       // augment
            { options =
-               { links =
+               { im-home.links =
                    l.mkOption
                      { type = t.submodule { options = conversion-options; };
                        default = {};
@@ -123,9 +123,9 @@ with builtins;
                  }
                  ''
             )
-            config.links.annotated;
+            config.im-home.links.annotated;
 
-        links.annotated =
+        im-home.links.annotated =
           let
             make-annotated =
               l.mapAttrsToList
@@ -136,7 +136,7 @@ with builtins;
                 );
           in
           l.mkMerge
-            ((make-annotated (removeAttrs config.links [ "annotated" ]))
+            ((make-annotated (removeAttrs config.im-home.links [ "annotated" ]))
              ++ (concatLists
                    (l.mapAttrsToList
                       (user: cfg:
@@ -148,7 +148,7 @@ with builtins;
                                    v
                               )
                            )
-                           (make-annotated cfg.links)
+                           (make-annotated cfg.im-home.links)
                       )
                       config.users.users
                    )
