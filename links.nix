@@ -5,13 +5,7 @@ with builtins;
     annotated = import ./annotated.nix p;
     augment = import ./augment.nix l;
     null-or = import ./null-or.nix p;
-
-    formats =
-      { ini = p.formats.ini {};
-        json = p.formats.json {};
-        toml = p.formats.toml {};
-        yaml = p.formats.yaml {};
-      };
+    formats = import ./formats.nix p;
 
     conversions =
       l.mapAttrs

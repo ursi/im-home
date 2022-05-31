@@ -2,13 +2,7 @@ with builtins;
 pkgs:
   let
     l = p.lib; p = pkgs; t = l.types;
-
-    formats =
-      { ini = p.formats.ini {};
-        json = p.formats.json {};
-        toml = p.formats.toml {};
-        yaml = p.formats.yaml {};
-      };
+    formats = import ./formats.nix p;
 
     # we need to use strings so we can check for equality
     get-type = type-str:
