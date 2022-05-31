@@ -136,7 +136,7 @@ with builtins;
                 );
           in
           l.mkMerge
-            ((make-annotated (removeAttrs config.links [ "annotated" "users" ]))
+            ((make-annotated (removeAttrs config.links [ "annotated" ]))
              ++ (concatLists
                    (l.mapAttrsToList
                       (user: cfg:
