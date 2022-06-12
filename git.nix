@@ -38,7 +38,7 @@
              config.im-home.links =
                let cfg = config.im-home.git; in
                l.mkIf (cfg != null)
-                 { ini."/.gitconfig" = cfg.config;
+                 { gitIni."/.gitconfig" = cfg.config;
                    lines."/.config/git/ignore" = cfg.ignore;
                  };
            }
