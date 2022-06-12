@@ -2,7 +2,7 @@ with builtins;
 pkgs:
   let
     l = p.lib; p = pkgs; t = l.types;
-    formats = import ./formats.nix p;
+    formats = import ./formats.nix p.formats;
 
     # we need to use strings so we can check for equality
     get-type = type-str:

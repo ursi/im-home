@@ -1,6 +1,7 @@
-p:
-  { ini = p.formats.ini {};
-    json = p.formats.json {};
-    toml = p.formats.toml {};
-    yaml = p.formats.yaml {};
+formats:
+  with formats;
+  { ini = ini {};
+    json = json {};
+    toml = toml {};
+    yaml = yaml {};
   }

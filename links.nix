@@ -5,7 +5,7 @@ with builtins;
     annotated = import ./annotated.nix p;
     augment = import ./augment.nix l;
     null-or = import ./null-or.nix p;
-    formats = import ./formats.nix p;
+    formats = import ./formats.nix p.formats;
 
     conversions =
       l.mapAttrs
